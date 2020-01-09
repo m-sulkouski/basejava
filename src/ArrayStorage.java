@@ -2,16 +2,22 @@
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] resumeStorage = new Resume[10000];
     private int resumeCounter = 0;
+    private Resume[] resumeStorage = new Resume[1000];
 
     void clear() {
+        int counter = 0;
+        while (counter < resumeCounter) {
+            resumeStorage[counter] = null;
+            counter++;
+        }
+        resumeCounter = 0;
     }
 
     void save(Resume resume) {
         resumeStorage[this.resumeCounter] = resume;
         this.resumeCounter++;
-        cleanResumeStorage();
+        sortResumeStorage();
     }
 
     Resume get(String uuid) {
@@ -23,34 +29,44 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         int index = findResume(uuid);
-        if (index != -1)
-
-            ;
+        if (index != -1) {
+            resumeStorage[index] = null;
+            sortResumeStorage();
+            resumeCounter--;
+        }
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return this.resumeStorage;
+        Resume[] resumes = new Resume[resumeCounter];
+        int counter = 0;
+        while (resumeStorage[counter] != null) {
+            resumes[counter] = resumeStorage[counter];
+            counter++;
+        }
+
+        return resumes;
     }
 
     int size() {
-        return 0;
+        return resumeCounter;
     }
 
-    private int findResume (String uuid) {
+    private int findResume(String uuid) {
         int counter = 0;
         while (counter < this.resumeCounter) {
             if (resumeStorage[counter].getUuid().equals(uuid)) {
                 return counter;
             }
+            counter++;
         }
         return -1;
     }
 
-    private void cleanResumeStorage() {
-        Resume[] processedResumeStorage = new Resume[this.resumeCounter];
+    private void sortResumeStorage() {
+        Resume[] processedResumeStorage = new Resume[1000];
         int processedIndex = 0;
         for (int i = 0; i < resumeCounter; i++, processedIndex++) {
             if (resumeStorage[i] == null) {
