@@ -15,23 +15,21 @@ public class ArrayStorage {
     }
 
     void save(Resume resume) {
-        resumeStorage[this.resumeCounter] = resume;
-        this.resumeCounter++;
-        sortResumeStorage();
+        resumeStorage[resumeCounter] = resume;
+        resumeCounter++;
     }
 
     Resume get(String uuid) {
-        int index = findResume(uuid);
+        int index = findResumeIndex(uuid);
         if (index != -1)
             return resumeStorage[index];
         return null;
     }
 
     void delete(String uuid) {
-        int index = findResume(uuid);
+        int index = findResumeIndex(uuid);
         if (index != -1) {
             resumeStorage[index] = null;
-            sortResumeStorage();
             resumeCounter--;
         }
     }
@@ -40,13 +38,13 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
+        sortResumeStorage();
         Resume[] resumes = new Resume[resumeCounter];
         int counter = 0;
-        while (resumeStorage[counter] != null) {
+        while (counter < resumeCounter) {
             resumes[counter] = resumeStorage[counter];
             counter++;
         }
-
         return resumes;
     }
 
@@ -54,13 +52,13 @@ public class ArrayStorage {
         return resumeCounter;
     }
 
-    private int findResume(String uuid) {
-        int counter = 0;
-        while (counter < this.resumeCounter) {
-            if (resumeStorage[counter].getUuid().equals(uuid)) {
-                return counter;
+    private int findResumeIndex(String uuid) {
+        int resumeIndex = 0;
+        while (resumeIndex < resumeCounter) {
+            if (resumeStorage[resumeIndex].getUuid().equals(uuid)) {
+                return resumeIndex;
             }
-            counter++;
+            resumeIndex++;
         }
         return -1;
     }
@@ -78,6 +76,6 @@ public class ArrayStorage {
             }
             processedResumeStorage[processedIndex] = resumeStorage[i];
         }
-        this.resumeStorage = processedResumeStorage;
+        resumeStorage = processedResumeStorage;
     }
 }
