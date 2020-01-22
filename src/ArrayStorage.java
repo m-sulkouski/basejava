@@ -3,7 +3,7 @@
  */
 public class ArrayStorage {
     private int resumeCounter = 0;
-    private Resume[] resumeStorage = new Resume[1000];
+    private final Resume[] resumeStorage = new Resume[1000];
 
     void clear() {
         int counter = 0;
@@ -21,15 +21,17 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         int index = findResumeIndex(uuid);
-        if (index != -1)
+        if (index != -1) {
             return resumeStorage[index];
+        }
         return null;
     }
 
     void delete(String uuid) {
         int index = findResumeIndex(uuid);
         if (index != -1) {
-            resumeStorage[index] = null;
+            resumeStorage[index] = resumeStorage[resumeCounter - 1];
+            resumeStorage[resumeCounter - 1] = null;
             resumeCounter--;
         }
     }
@@ -38,7 +40,6 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        sortResumeStorage();
         Resume[] resumes = new Resume[resumeCounter];
         int counter = 0;
         while (counter < resumeCounter) {
@@ -63,19 +64,4 @@ public class ArrayStorage {
         return -1;
     }
 
-    private void sortResumeStorage() {
-        Resume[] processedResumeStorage = new Resume[1000];
-        int processedIndex = 0;
-        for (int i = 0; i < resumeCounter; i++, processedIndex++) {
-            if (resumeStorage[i] == null) {
-                if (i < resumeCounter - 1)
-                    i++;
-                else {
-                    break;
-                }
-            }
-            processedResumeStorage[processedIndex] = resumeStorage[i];
-        }
-        resumeStorage = processedResumeStorage;
-    }
 }
