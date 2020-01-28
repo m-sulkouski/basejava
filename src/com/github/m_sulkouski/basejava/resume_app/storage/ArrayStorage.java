@@ -10,10 +10,11 @@ import java.util.Scanner;
  */
 public class ArrayStorage {
     private int resumeCounter = 0;
-    private final Resume[] resumeStorage = new Resume[10000];
+    private final Resume[] resumeStorage = new Resume[10_000];
 
     public void clear() {
-        Arrays.fill(resumeStorage, null);
+        Arrays.fill(resumeStorage, 0, resumeCounter - 1, null);
+        resumeCounter = 0;
     }
 
     public void save(Resume resume) {
@@ -47,8 +48,8 @@ public class ArrayStorage {
         }
     }
 
-    public void update(String uuid) {
-        int index = findResumeIndex(uuid);
+    public void update(Resume resume) {
+        int index = findResumeIndex(resume.getUuid());
         if (index != -1) {
             System.out.println("Please enter new uuid: ");
             Scanner input = new Scanner(System.in);
@@ -58,7 +59,7 @@ public class ArrayStorage {
             }
             resumeStorage[index] = new Resume(updatedUUID);
         } else {
-            System.out.println("Resume with uuid \"" + uuid + "\" not found.");
+            System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
         }
     }
 
@@ -81,7 +82,6 @@ public class ArrayStorage {
             }
             resumeIndex++;
         }
-
         return -1;
     }
 }
