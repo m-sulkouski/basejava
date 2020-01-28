@@ -1,5 +1,10 @@
+package com.github.m_sulkouski.basejava.resume_app;
+
+import com.github.m_sulkouski.basejava.resume_app.model.Resume;
+import com.github.m_sulkouski.basejava.resume_app.storage.ArrayStorage;
+
 /**
- * Test for your ArrayStorage implementation
+ * Test for your com.github.m_sulkouski.basejava.resume_app.storage.com.github.m_sulkouski.basejava.resume_app.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
