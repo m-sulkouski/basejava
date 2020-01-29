@@ -52,7 +52,6 @@ public class ArrayStorage {
         int index = findResumeIndex(resume.getUuid());
         if (index != -1) {
             resumeStorage[index] = resume;
-            System.out.println("Resume has been updated");
         }
         else {
             System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
