@@ -13,7 +13,7 @@ public class ArrayStorage {
     private final Resume[] resumeStorage = new Resume[10_000];
 
     public void clear() {
-        Arrays.fill(resumeStorage, 0, resumeCounter - 1, null);
+        Arrays.fill(resumeStorage, 0, resumeCounter, null);
         resumeCounter = 0;
     }
 
@@ -51,14 +51,10 @@ public class ArrayStorage {
     public void update(Resume resume) {
         int index = findResumeIndex(resume.getUuid());
         if (index != -1) {
-            System.out.println("Please enter new uuid: ");
-            Scanner input = new Scanner(System.in);
-            String updatedUUID = "";
-            while (updatedUUID.equals("")) {                             // Make sure updated uuid is not empty string
-                updatedUUID = input.nextLine();
-            }
-            resumeStorage[index] = new Resume(updatedUUID);
-        } else {
+            resumeStorage[index] = resume;
+            System.out.println("Resume has been updated");
+        }
+        else {
             System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
         }
     }
