@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
+public class ArrayStorage implements Storage {
     private int resumeCounter = 0;
     private final Resume[] resumeStorage = new Resume[10_000];
 
