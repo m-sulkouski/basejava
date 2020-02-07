@@ -8,14 +8,8 @@ import java.util.Scanner;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage implements Storage {
-    private int resumeCounter = 0;
-    private final Resume[] resumeStorage = new Resume[10_000];
+public class ArrayStorage extends AbstractArrayStorage {
 
-    public void clear() {
-        Arrays.fill(resumeStorage, 0, resumeCounter, null);
-        resumeCounter = 0;
-    }
 
     public void save(Resume resume) {
         if (findResumeIndex(resume.getUuid()) != -1) {
@@ -26,15 +20,6 @@ public class ArrayStorage implements Storage {
             resumeStorage[resumeCounter] = resume;
             resumeCounter++;
         }
-    }
-
-    public Resume get(String uuid) {
-        int index = findResumeIndex(uuid);
-        if (index != -1) {
-            return resumeStorage[index];
-        }
-        System.out.println("Resume with uuid \"" + uuid + "\" not found.");
-        return null;
     }
 
     public void delete(String uuid) {
@@ -52,24 +37,12 @@ public class ArrayStorage implements Storage {
         int index = findResumeIndex(resume.getUuid());
         if (index != -1) {
             resumeStorage[index] = resume;
-        }
-        else {
+        } else {
             System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
         }
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public Resume[] getAll() {
-        return Arrays.copyOf(resumeStorage, resumeCounter);
-    }
-
-    public int size() {
-        return resumeCounter;
-    }
-
-    private int findResumeIndex(String uuid) {
+    protected int findResumeIndex(String uuid) {
         int resumeIndex = 0;
         while (resumeIndex < resumeCounter) {
             if (resumeStorage[resumeIndex].getUuid().equals(uuid)) {
