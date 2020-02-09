@@ -40,10 +40,13 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public boolean equals(Object o) {
-        if ((o != this) || (!(o instanceof Resume))) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Resume comparedResume = (Resume) o;
-        return uuid.equals(comparedResume.getUuid());
+        Resume resume = (Resume) o;
+        return uuid.equals(resume.uuid);
     }
 }

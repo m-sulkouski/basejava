@@ -14,7 +14,9 @@ public abstract class AbstractArrayStorage implements Storage {
         resumeCounter = 0;
     }
 
-    public int size() {return resumeCounter;}
+    public int size() {
+        return resumeCounter;
+    }
 
     public Resume[] getAll() {
         return Arrays.copyOf(resumeStorage, resumeCounter);
@@ -22,12 +24,46 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = findResumeIndex(uuid);
-        if (index != -1) {
+        if (index >= 0) {
             return resumeStorage[index];
         }
         System.out.println("Resume with uuid \"" + uuid + "\" not found.");
         return null;
     }
 
-    abstract protected int findResumeIndex(String uuid);
+    public void update(Resume resume) {
+        int index = findResumeIndex(resume.getUuid());
+        if (index >= 0) {
+            resumeStorage[index] = resume;
+        } else {
+            System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
+        }
+    }
+
+    public void delete(String uuid) {
+        int resumeIndex = findResumeIndex(uuid);
+        if (resumeIndex >= 0) {
+            shiftResumeStorage(resumeIndex, null);
+        } else {
+            System.out.println("Resume with uuid \"" + uuid + "\" not found.");
+        }
+    }
+
+    public void save(Resume resume) {
+        if (resumeCounter >= STORAGE_LIMIT) {
+            System.out.println("Error saving resume to database. Resume database is already full!");
+        } else {
+            int resumeIndex = findResumeIndex(resume.getUuid());
+            if (resumeIndex >= 0) {
+                System.out.println("Resume with uuid \"" + resume.getUuid() + "\" already exists.");
+            } else {
+                resumeIndex = -resumeIndex - 1;
+                shiftResumeStorage(resumeIndex, resume);
+            }
+        }
+    }
+
+    protected abstract void shiftResumeStorage(int replacementIndex, Resume resume);
+
+    protected abstract int findResumeIndex(String uuid);
 }

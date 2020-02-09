@@ -1,7 +1,6 @@
 package com.github.m_sulkouski.basejava.resume_app;
 
 import com.github.m_sulkouski.basejava.resume_app.model.Resume;
-import com.github.m_sulkouski.basejava.resume_app.storage.ArrayStorage;
 import com.github.m_sulkouski.basejava.resume_app.storage.SortedArrayStorage;
 
 public class MainTestSortedArrayStorage {
