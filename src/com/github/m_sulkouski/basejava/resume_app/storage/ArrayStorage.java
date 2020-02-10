@@ -8,18 +8,19 @@ import com.github.m_sulkouski.basejava.resume_app.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void shiftResumeStorage(int replacementIndex, Resume resume) {
-        if (resume == null) {
-            resumeStorage[replacementIndex] = resumeStorage[resumeCounter - 1];
-            resumeStorage[resumeCounter - 1] = null;
-            resumeCounter--;
-        } else {
-            resumeStorage[resumeCounter] = resumeStorage[replacementIndex];
-            resumeStorage[replacementIndex] = resume;
-            resumeCounter++;
-        }
+    protected void removeResume(int replacementIndex) {
+        resumeStorage[replacementIndex] = resumeStorage[resumeCounter - 1];
+        resumeStorage[resumeCounter - 1] = null;
+        resumeCounter--;
     }
 
+    @Override
+    protected void addResume(int replacementIndex, Resume resume) {
+        resumeStorage[resumeCounter] = resume;
+        resumeCounter++;
+    }
+
+    @Override
     protected int findResumeIndex(String uuid) {
         int resumeIndex = 0;
         while (resumeIndex < resumeCounter) {
@@ -28,6 +29,6 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
             resumeIndex++;
         }
-        return -resumeIndex - 1;
+        return resumeIndex;
     }
 }

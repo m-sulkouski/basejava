@@ -6,19 +6,21 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    protected void shiftResumeStorage(int replacementIndex, Resume resume) {
-        if (resume == null) {
-            if (resumeCounter + 1 - replacementIndex >= 0) {
-                System.arraycopy(resumeStorage, replacementIndex + 1, resumeStorage, replacementIndex, resumeCounter + 1 - replacementIndex);
-            }
-            resumeCounter--;
-        } else {
-            if (resumeCounter - replacementIndex >= 0) {
-                System.arraycopy(resumeStorage, replacementIndex, resumeStorage, replacementIndex + 1, resumeCounter - replacementIndex);
-            }
-            resumeStorage[replacementIndex] = resume;
-            resumeCounter++;
+    protected void removeResume(int replacementIndex) {
+        if (resumeCounter + 1 - replacementIndex > 0) {
+            System.arraycopy(resumeStorage, replacementIndex + 1, resumeStorage, replacementIndex, resumeCounter + 1 - replacementIndex);
         }
+        resumeCounter--;
+    }
+
+    @Override
+    protected void addResume(int replacementIndex, Resume resume) {
+        replacementIndex = -replacementIndex - 1;
+        if (resumeCounter - replacementIndex > 0) {
+            System.arraycopy(resumeStorage, replacementIndex, resumeStorage, replacementIndex + 1, resumeCounter - replacementIndex);
+        }
+        resumeStorage[replacementIndex] = resume;
+        resumeCounter++;
     }
 
     @Override

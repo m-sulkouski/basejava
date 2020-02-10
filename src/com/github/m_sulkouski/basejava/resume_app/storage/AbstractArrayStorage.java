@@ -35,17 +35,22 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = findResumeIndex(resume.getUuid());
         if (index >= 0) {
             resumeStorage[index] = resume;
+            System.out.println("Resume with uuid \"" + resume.getUuid() + " has been successfully updated.");
         } else {
             System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
         }
     }
 
     public void delete(String uuid) {
-        int resumeIndex = findResumeIndex(uuid);
-        if (resumeIndex >= 0) {
-            shiftResumeStorage(resumeIndex, null);
+        if (resumeCounter <= 0) {
+            System.out.println("Error deleting entry from database. Resume database is empty!");
         } else {
-            System.out.println("Resume with uuid \"" + uuid + "\" not found.");
+            int resumeIndex = findResumeIndex(uuid);
+            if (resumeIndex >= 0) {
+                removeResume(resumeIndex);
+            } else {
+                System.out.println("Resume with uuid \"" + uuid + "\" not found.");
+            }
         }
     }
 
@@ -53,17 +58,18 @@ public abstract class AbstractArrayStorage implements Storage {
         if (resumeCounter >= STORAGE_LIMIT) {
             System.out.println("Error saving resume to database. Resume database is already full!");
         } else {
-            int resumeIndex = findResumeIndex(resume.getUuid());
-            if (resumeIndex >= 0) {
+            int replacementIndex = findResumeIndex(resume.getUuid());
+            if (replacementIndex >= 0 && resumeStorage[replacementIndex] != null) {
                 System.out.println("Resume with uuid \"" + resume.getUuid() + "\" already exists.");
             } else {
-                resumeIndex = -resumeIndex - 1;
-                shiftResumeStorage(resumeIndex, resume);
+                addResume(replacementIndex, resume);
             }
         }
     }
 
-    protected abstract void shiftResumeStorage(int replacementIndex, Resume resume);
+    protected abstract void removeResume(int replacementIndex);
+
+    protected abstract void addResume(int replacementIndex, Resume resume);
 
     protected abstract int findResumeIndex(String uuid);
 }
