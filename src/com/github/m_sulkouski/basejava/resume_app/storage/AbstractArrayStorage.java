@@ -59,7 +59,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Error saving resume to database. Resume database is already full!");
         } else {
             int resumeIndex = findResumeIndex(resume.getUuid());
-            if (resumeIndex > 0) {
+            if (resumeIndex >= 0) {
                 System.out.println("Resume with uuid \"" + resume.getUuid() + "\" already exists.");
             } else {
                 addResume(resumeIndex, resume);
