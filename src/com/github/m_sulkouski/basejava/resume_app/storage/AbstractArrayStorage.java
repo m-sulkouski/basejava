@@ -5,7 +5,7 @@ import com.github.m_sulkouski.basejava.resume_app.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10000;
+    protected static final int STORAGE_LIMIT = 5;
     protected final Resume[] resumeStorage = new Resume[STORAGE_LIMIT];
     protected int resumeCounter = 0;
 
@@ -35,21 +35,21 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = findResumeIndex(resume.getUuid());
         if (index >= 0) {
             resumeStorage[index] = resume;
-            System.out.println("Resume with uuid \"" + resume.getUuid() + " has been successfully updated.");
         } else {
             System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
         }
     }
 
-    public void delete(String uuid) {
+    public void delete(Resume resume) {
         if (resumeCounter <= 0) {
             System.out.println("Error deleting entry from database. Resume database is empty!");
         } else {
-            int resumeIndex = findResumeIndex(uuid);
-            if (resumeIndex >= 0) {
-                removeResume(resumeIndex);
+            int resumeIndex = findResumeIndex(resume.getUuid());
+            if (!resume.equals(resumeStorage[resumeIndex])) {
+                System.out.println("Resume with uuid \"" + resume.getUuid() + "\" not found.");
             } else {
-                System.out.println("Resume with uuid \"" + uuid + "\" not found.");
+                removeResume(resumeIndex);
+                resumeCounter--;
             }
         }
     }
@@ -59,10 +59,11 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Error saving resume to database. Resume database is already full!");
         } else {
             int replacementIndex = findResumeIndex(resume.getUuid());
-            if (replacementIndex >= 0 && resumeStorage[replacementIndex] != null) {
+            if (resume.equals(resumeStorage[replacementIndex])) {
                 System.out.println("Resume with uuid \"" + resume.getUuid() + "\" already exists.");
             } else {
                 addResume(replacementIndex, resume);
+                resumeCounter++;
             }
         }
     }

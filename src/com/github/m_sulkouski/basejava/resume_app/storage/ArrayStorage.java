@@ -11,13 +11,11 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void removeResume(int replacementIndex) {
         resumeStorage[replacementIndex] = resumeStorage[resumeCounter - 1];
         resumeStorage[resumeCounter - 1] = null;
-        resumeCounter--;
     }
 
     @Override
     protected void addResume(int replacementIndex, Resume resume) {
         resumeStorage[resumeCounter] = resume;
-        resumeCounter++;
     }
 
     @Override
