@@ -50,6 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
             } else {
                 removeResume(resumeIndex);
                 resumeCounter--;
+                resumeStorage[resumeCounter] = null;
             }
         }
     }

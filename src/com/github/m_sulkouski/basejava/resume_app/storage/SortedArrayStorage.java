@@ -10,7 +10,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         if (resumeCounter - 1 - replacementIndex > 0) {
             System.arraycopy(resumeStorage, replacementIndex + 1, resumeStorage, replacementIndex, resumeCounter - 1 - replacementIndex);
         }
-        resumeStorage[resumeCounter - 1] = null;
     }
 
     @Override

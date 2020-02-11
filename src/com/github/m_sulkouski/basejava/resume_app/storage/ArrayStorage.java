@@ -10,7 +10,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void removeResume(int replacementIndex) {
         resumeStorage[replacementIndex] = resumeStorage[resumeCounter - 1];
-        resumeStorage[resumeCounter - 1] = null;
     }
 
     @Override
