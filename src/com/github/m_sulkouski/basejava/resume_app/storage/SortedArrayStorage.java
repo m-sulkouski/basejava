@@ -7,14 +7,15 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected void removeResume(int replacementIndex) {
-        if (STORAGE_LIMIT - 1 - replacementIndex > 0) {
-            System.arraycopy(resumeStorage, replacementIndex + 1, resumeStorage, replacementIndex, STORAGE_LIMIT - 1 - replacementIndex);
+        if (resumeCounter - 1 - replacementIndex > 0) {
+            System.arraycopy(resumeStorage, replacementIndex + 1, resumeStorage, replacementIndex, resumeCounter - 1 - replacementIndex);
         }
         resumeStorage[resumeCounter - 1] = null;
     }
 
     @Override
     protected void addResume(int replacementIndex, Resume resume) {
+        replacementIndex = -replacementIndex - 1;
         if (resumeCounter - replacementIndex > 0) {
             System.arraycopy(resumeStorage, replacementIndex, resumeStorage, replacementIndex + 1, resumeCounter - replacementIndex);
         }
@@ -23,10 +24,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected int findResumeIndex(String uuid) {
-        int resumeIndex = Arrays.binarySearch(resumeStorage, 0, resumeCounter, new Resume(uuid));
-        if (resumeIndex < 0) {
-            resumeIndex = -resumeIndex - 1;
-        }
-        return resumeIndex;
+        return Arrays.binarySearch(resumeStorage, 0, resumeCounter, new Resume(uuid));
     }
 }

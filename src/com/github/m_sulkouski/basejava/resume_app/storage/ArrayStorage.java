@@ -27,6 +27,6 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
             resumeIndex++;
         }
-        return resumeIndex;
+        return -1;
     }
 }

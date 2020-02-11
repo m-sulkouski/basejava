@@ -35,7 +35,7 @@ public class MainSortedArray {
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(new Resume(uuid));
+                    ARRAY_STORAGE.delete(uuid);
                     printAll();
                     break;
                 case "get":

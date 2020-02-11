@@ -39,7 +39,7 @@ public class MainArray {
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(new Resume(uuid));
+                    ARRAY_STORAGE.delete(uuid);
                     printAll();
                     break;
                 case "get":
